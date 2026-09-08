@@ -40,6 +40,20 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    document.querySelectorAll(".hero-section, .inner-hero, .contact-section").forEach((surface) => {
+        surface.addEventListener("pointermove", (event) => {
+            const bounds = surface.getBoundingClientRect();
+            const x = ((event.clientX - bounds.left) / bounds.width - .5) * 18;
+            const y = ((event.clientY - bounds.top) / bounds.height - .5) * 18;
+            surface.style.setProperty("--star-x", `${x}px`);
+            surface.style.setProperty("--star-y", `${y}px`);
+        }, { passive: true });
+        surface.addEventListener("pointerleave", () => {
+            surface.style.setProperty("--star-x", "0px");
+            surface.style.setProperty("--star-y", "0px");
+        }, { passive: true });
+    });
+
     const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
     const currentPage = window.location.pathname.split("/").pop() || "index.html";
 
