@@ -101,14 +101,41 @@ a {
 
 .cu-theme-toggle:hover { transform: translateY(-2px); }
 
-body.theme-light { --cu-navy: #eef6fc; --cu-navy-2: #dcecf8; --cu-text: #13243a; --cu-muted: #52657a; --cu-border: #d6e3ee; background: #f7fbff; }
+body.theme-light { --cu-navy: #020d1e; --cu-navy-2: #06152a; --cu-text: #13243a; --cu-muted: #52657a; --cu-border: #d6e3ee; background: #f7fbff; }
 body.theme-light .site-header { background: rgba(247,251,255,.9); border-bottom-color: rgba(2,13,30,.08); }
 body.theme-light .nav-link { color: rgba(2,13,30,.72) !important; }
-body.theme-light .nav-link:hover, body.theme-light .nav-link.active { color: var(--cu-navy) !important; }
-body.theme-light .cu-theme-toggle { color: var(--cu-navy); background: #fff; border-color: var(--cu-border); }
+body.theme-light .nav-link:hover, body.theme-light .nav-link.active { color: #020d1e !important; }
+body.theme-light .cu-theme-toggle { color: #020d1e; background: #fff; border-color: var(--cu-border); }
 body.theme-light .section-light, body.theme-light .page-content { background: #f7fbff; }
 body.theme-light .portfolio-preview-section, body.theme-light .audience-section { background: #eaf4fb; }
 body.theme-light .service-card, body.theme-light .portfolio-card, body.theme-light .quote-card, body.theme-light .contact-card { background: #fff; }
+body.theme-light .section-heading h2, body.theme-light .portfolio-intro h2, body.theme-light .promotion-copy h2 { color: #020d1e; }
+
+@media (prefers-reduced-motion: no-preference) {
+    .hero-glow { animation: cuGlowDrift 10s ease-in-out infinite alternate; }
+    .glow-two { animation-delay: -4s; }
+    .hero-card { animation: cuFloat 6s ease-in-out infinite; }
+    .inner-hero::after { animation: cuStarShift 18s linear infinite; }
+    .section-heading, .service-card, .portfolio-card, .contact-card, .quote-card, .pricing-section, .promotion-form, .available-projects { animation: cuReveal .7s ease both; }
+    .service-card:nth-child(2), .portfolio-card:nth-child(2) { animation-delay: .08s; }
+    .service-card:nth-child(3), .portfolio-card:nth-child(3) { animation-delay: .16s; }
+}
+
+@keyframes cuGlowDrift {
+    from { transform: translate3d(-18px, 10px, 0) scale(.92); }
+    to { transform: translate3d(18px, -14px, 0) scale(1.08); }
+}
+
+@keyframes cuFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(1deg); }
+}
+
+@keyframes cuStarShift { from { background-position: 0 0; } to { background-position: 83px 97px; } }
+@keyframes cuReveal { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+.cu-reveal-target { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+.cu-reveal-target.is-revealed { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) { .cu-reveal-target { opacity: 1; transform: none; transition: none; } }
 
 /* Botão de ação principal e seu feedback visual ao passar o mouse. */
 .btn-orange {
@@ -1462,6 +1489,7 @@ textarea.form-control {
 
 .promo-slide--offer { background: linear-gradient(115deg, #06152a, #0b3961 68%, #0f9dcc); }
 .promo-slide--chat { background: linear-gradient(115deg, #020d1e, #39200b 68%, #ff7a00); }
+.promo-slide::before { content: ""; position: absolute; inset: -40%; background: linear-gradient(115deg, transparent 42%, rgba(255,255,255,.12) 50%, transparent 58%); transform: translateX(-45%); animation: cuBannerShine 7s ease-in-out infinite; pointer-events: none; }
 .promo-slide__inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
 .promo-slide__tag { color: #9de6ff; font-size: .72rem; font-weight: 800; letter-spacing: .14em; }
 .promo-slide h2 { max-width: 700px; margin: 10px 0 6px; font-size: clamp(1.55rem, 3vw, 2.5rem); font-weight: 800; }
@@ -1506,6 +1534,7 @@ textarea.form-control {
 .promotion-ticket__actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .promotion-ticket canvas { display: block; width: 100%; height: auto; border-radius: 12px; box-shadow: 0 12px 30px rgba(3,18,40,.16); }
 @keyframes promotionReveal { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes cuBannerShine { 0%, 35% { transform: translateX(-45%); } 70%, 100% { transform: translateX(45%); } }
 
 /* Em telas pequenas, o chat ocupa quase toda a largura disponível. */
 @media (max-width: 480px) {

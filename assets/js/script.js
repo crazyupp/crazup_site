@@ -25,6 +25,21 @@ document.addEventListener("DOMContentLoaded", () => {
         updateThemeLabel();
     });
 
+    if ("IntersectionObserver" in window) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-revealed");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        document.querySelectorAll("section, .service-card, .portfolio-card, .contact-card, .quote-card, .pricing-section, .promotion-form, .available-projects").forEach((element) => {
+            element.classList.add("cu-reveal-target");
+            revealObserver.observe(element);
+        });
+    }
+
     const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
     const currentPage = window.location.pathname.split("/").pop() || "index.html";
 
