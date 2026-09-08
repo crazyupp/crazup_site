@@ -5,6 +5,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const year = document.getElementById("year");
     if (year) year.textContent = new Date().getFullYear();
 
+    const atmosphere = document.createElement("div");
+    atmosphere.className = "cu-atmosphere";
+    atmosphere.setAttribute("aria-hidden", "true");
+    atmosphere.innerHTML = '<span class="cu-atmosphere__sun"></span><span class="cu-atmosphere__haze"></span><span class="cu-atmosphere__cloud cu-atmosphere__cloud--one"></span><span class="cu-atmosphere__cloud cu-atmosphere__cloud--two"></span><span class="cu-atmosphere__stars cu-atmosphere__stars--far"></span><span class="cu-atmosphere__stars cu-atmosphere__stars--near"></span><span class="cu-atmosphere__nebula"></span><span class="cu-atmosphere__orbit"></span><span class="cu-atmosphere__shooting-star"></span>';
+    document.body.prepend(atmosphere);
+
     const themeToggle = document.createElement("button");
     themeToggle.type = "button";
     themeToggle.className = "cu-theme-toggle";

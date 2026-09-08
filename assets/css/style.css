@@ -32,11 +32,126 @@ html {
 }
 
 body {
+    position: relative;
     margin: 0;
     font-family: "Inter", Arial, sans-serif;
     color: var(--cu-text);
     background: var(--cu-page-bg);
     overflow-x: hidden;
+}
+
+body > *:not(.cu-atmosphere) { position: relative; z-index: 1; }
+
+.cu-atmosphere {
+    position: fixed;
+    z-index: 0;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    isolation: isolate;
+    background: linear-gradient(180deg, #dcefff 0%, #f6fbff 48%, #e3f2fb 100%);
+    transition: background .8s ease, opacity .8s ease;
+}
+
+.cu-atmosphere::before,
+.cu-atmosphere::after {
+    position: absolute;
+    content: "";
+    inset: -12%;
+}
+
+.cu-atmosphere::before {
+    opacity: .8;
+    background: linear-gradient(112deg, transparent 26%, rgba(255,255,255,.5) 44%, transparent 62%);
+    transform: translateX(-30%);
+    animation: cuDayLightSweep 18s ease-in-out infinite;
+}
+
+.cu-atmosphere::after {
+    opacity: .26;
+    background-image: radial-gradient(ellipse at 20% 20%, rgba(255,255,255,.9) 0 2%, transparent 16%), radial-gradient(ellipse at 76% 38%, rgba(255,255,255,.8) 0 1.5%, transparent 14%);
+    filter: blur(18px);
+    animation: cuCloudAtmosphere 28s ease-in-out infinite alternate;
+}
+
+.cu-atmosphere__sun,
+.cu-atmosphere__haze,
+.cu-atmosphere__cloud,
+.cu-atmosphere__stars,
+.cu-atmosphere__nebula,
+.cu-atmosphere__orbit,
+.cu-atmosphere__shooting-star { position: absolute; display: block; }
+
+.cu-atmosphere__sun {
+    width: min(34vw, 520px);
+    height: min(34vw, 520px);
+    top: -13%;
+    right: 8%;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff 0 7%, #ffe7a8 22%, rgba(255,194,85,.3) 48%, transparent 70%);
+    filter: blur(1px);
+    opacity: .78;
+    animation: cuSunPulse 9s ease-in-out infinite alternate;
+}
+
+.cu-atmosphere__haze {
+    inset: 35% -10% auto;
+    height: 38vh;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.52), transparent);
+    filter: blur(40px);
+    opacity: .5;
+    animation: cuHazeMove 20s ease-in-out infinite alternate;
+}
+
+.cu-atmosphere__cloud { width: 30vw; height: 9vw; min-width: 220px; min-height: 68px; border-radius: 50%; background: rgba(255,255,255,.38); filter: blur(18px); opacity: .55; }
+.cu-atmosphere__cloud--one { top: 19%; left: -8%; animation: cuCloudFloat 36s linear infinite; }
+.cu-atmosphere__cloud--two { top: 62%; right: -14%; opacity: .34; animation: cuCloudFloatReverse 44s linear infinite; }
+
+.cu-atmosphere__stars,
+.cu-atmosphere__nebula,
+.cu-atmosphere__orbit,
+.cu-atmosphere__shooting-star { opacity: 0; }
+
+body:not(.theme-light) .cu-atmosphere {
+    background: radial-gradient(ellipse at 60% 20%, #123252 0%, #061426 42%, #020813 100%);
+}
+
+body:not(.theme-light) .cu-atmosphere::before {
+    opacity: .55;
+    background: linear-gradient(115deg, transparent 32%, rgba(89,180,255,.12) 48%, transparent 63%);
+    animation: cuSpaceSweep 22s ease-in-out infinite;
+}
+
+body:not(.theme-light) .cu-atmosphere::after {
+    opacity: .5;
+    background-image: radial-gradient(ellipse at 25% 15%, rgba(18,110,170,.28), transparent 32%), radial-gradient(ellipse at 78% 70%, rgba(255,104,22,.12), transparent 28%);
+    filter: blur(32px);
+}
+
+body:not(.theme-light) .cu-atmosphere__sun { opacity: .16; width: 42vw; height: 42vw; top: -26%; right: -8%; background: radial-gradient(circle, #9edcff 0 4%, rgba(56,151,220,.2) 30%, transparent 68%); }
+body:not(.theme-light) .cu-atmosphere__haze { opacity: .2; background: linear-gradient(90deg, transparent, #3f9ccc, transparent); }
+body:not(.theme-light) .cu-atmosphere__cloud { display: none; }
+body:not(.theme-light) .cu-atmosphere__stars { opacity: 1; inset: 0; background-repeat: repeat; animation: cuStarfield 70s linear infinite; }
+body:not(.theme-light) .cu-atmosphere__stars--far { background-image: radial-gradient(circle, rgba(255,255,255,.8) 0 1px, transparent 1.5px), radial-gradient(circle, rgba(141,199,232,.7) 0 1px, transparent 1.6px); background-size: 127px 151px, 211px 193px; }
+body:not(.theme-light) .cu-atmosphere__stars--near { opacity: .72; transform: scale(1.2); background-image: radial-gradient(circle, #fff 0 1.4px, transparent 2px), radial-gradient(circle, #ffb66c 0 1px, transparent 1.8px); background-size: 317px 271px, 421px 373px; animation-duration: 42s; }
+body:not(.theme-light) .cu-atmosphere__nebula { inset: -20%; opacity: .35; background: conic-gradient(from 120deg at 60% 40%, transparent, rgba(18,151,211,.18), transparent 35%, rgba(255,122,0,.1), transparent 64%); filter: blur(45px); animation: cuNebulaRotate 40s linear infinite; }
+body:not(.theme-light) .cu-atmosphere__orbit { width: 62vw; height: 18vw; top: 16%; right: -19%; border: 1px solid rgba(104,203,255,.18); border-radius: 50%; transform: rotate(-24deg); opacity: .7; animation: cuOrbitDrift 16s ease-in-out infinite alternate; }
+body:not(.theme-light) .cu-atmosphere__shooting-star { top: 24%; left: 4%; width: 150px; height: 1px; opacity: .9; background: linear-gradient(90deg, transparent, #fff, transparent); transform: rotate(28deg); animation: cuShootingStar 8s ease-in-out infinite; }
+
+@keyframes cuDayLightSweep { 0%, 100% { transform: translateX(-30%) rotate(-4deg); } 50% { transform: translateX(30%) rotate(4deg); } }
+@keyframes cuCloudAtmosphere { from { transform: translate3d(-2%, -2%, 0) scale(1); } to { transform: translate3d(4%, 3%, 0) scale(1.08); } }
+@keyframes cuSunPulse { from { transform: scale(.96); } to { transform: scale(1.05); } }
+@keyframes cuHazeMove { from { transform: translateX(-8%); } to { transform: translateX(8%); } }
+@keyframes cuCloudFloat { from { transform: translateX(0); } to { transform: translateX(125vw); } }
+@keyframes cuCloudFloatReverse { from { transform: translateX(0); } to { transform: translateX(-125vw); } }
+@keyframes cuSpaceSweep { from { transform: translateX(-25%) rotate(-4deg); } to { transform: translateX(25%) rotate(4deg); } }
+@keyframes cuStarfield { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-90px, 70px, 0) scale(1.04); } }
+@keyframes cuNebulaRotate { to { transform: rotate(360deg) scale(1.1); } }
+@keyframes cuOrbitDrift { from { transform: rotate(-24deg) translateX(-10px); } to { transform: rotate(-20deg) translateX(18px); } }
+@keyframes cuShootingStar { 0%, 72% { opacity: 0; transform: translate3d(-20vw, -4vh, 0) rotate(28deg); } 78% { opacity: 1; } 88%, 100% { opacity: 0; transform: translate3d(85vw, 44vh, 0) rotate(28deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .cu-atmosphere *,.cu-atmosphere::before,.cu-atmosphere::after { animation: none !important; }
 }
 
 /* Impede que sombras, animações ou elementos decorativos criem largura extra no celular. */
