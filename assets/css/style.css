@@ -15,6 +15,10 @@
     --cu-muted: #64748b;
     --cu-border: #e7edf4;
     --cu-radius: 18px;
+    --cu-page-bg: #f7fbff;
+    --cu-surface: #fff;
+    --cu-section-bg: #f5f9fd;
+    --cu-heading: #020d1e;
 }
 
 * {
@@ -31,7 +35,7 @@ body {
     margin: 0;
     font-family: "Inter", Arial, sans-serif;
     color: var(--cu-text);
-    background: var(--cu-navy);
+    background: var(--cu-page-bg);
     overflow-x: hidden;
 }
 
@@ -101,7 +105,7 @@ a {
 
 .cu-theme-toggle:hover { transform: translateY(-2px); }
 
-body.theme-light { --cu-navy: #020d1e; --cu-navy-2: #06152a; --cu-text: #13243a; --cu-muted: #52657a; --cu-border: #d6e3ee; background: #f7fbff; }
+body.theme-light { --cu-navy: #020d1e; --cu-navy-2: #06152a; --cu-text: #13243a; --cu-muted: #52657a; --cu-border: #d6e3ee; --cu-page-bg: #f7fbff; --cu-surface: #fff; --cu-section-bg: #f5f9fd; --cu-heading: #020d1e; background: var(--cu-page-bg); }
 body.theme-light .site-header { background: rgba(247,251,255,.9); border-bottom-color: rgba(2,13,30,.08); }
 body.theme-light .nav-link { color: rgba(2,13,30,.72) !important; }
 body.theme-light .nav-link:hover, body.theme-light .nav-link.active { color: #020d1e !important; }
@@ -110,6 +114,55 @@ body.theme-light .section-light, body.theme-light .page-content { background: #f
 body.theme-light .portfolio-preview-section, body.theme-light .audience-section { background: #eaf4fb; }
 body.theme-light .service-card, body.theme-light .portfolio-card, body.theme-light .quote-card, body.theme-light .contact-card { background: #fff; }
 body.theme-light .section-heading h2, body.theme-light .portfolio-intro h2, body.theme-light .promotion-copy h2 { color: #020d1e; }
+
+body:not(.theme-light) {
+    --cu-page-bg: #061426;
+    --cu-surface: #0d2038;
+    --cu-section-bg: #091a2f;
+    --cu-heading: #f5f8ff;
+    --cu-text: #d7e3ef;
+    --cu-muted: #a9bbcc;
+    --cu-border: rgba(141,199,232,.18);
+    background: var(--cu-page-bg);
+}
+
+body:not(.theme-light) .section-light,
+body:not(.theme-light) .page-content,
+body:not(.theme-light) .cta-section,
+body:not(.theme-light) .portfolio-preview-section,
+body:not(.theme-light) .audience-section,
+body:not(.theme-light) .portfolio-cta,
+body:not(.theme-light) .contact-section,
+body:not(.theme-light) .promotion-section { color: var(--cu-text); background: var(--cu-section-bg); }
+
+body:not(.theme-light) .section-heading h2,
+body:not(.theme-light) .portfolio-intro h2,
+body:not(.theme-light) .contact-intro h2,
+body:not(.theme-light) .promotion-copy h2,
+body:not(.theme-light) .service-card h3,
+body:not(.theme-light) .portfolio-card h3,
+body:not(.theme-light) .pricing-section h2 { color: var(--cu-heading); }
+
+body:not(.theme-light) .service-card,
+body:not(.theme-light) .portfolio-card,
+body:not(.theme-light) .contact-card,
+body:not(.theme-light) .quote-card,
+body:not(.theme-light) .available-projects,
+body:not(.theme-light) .pricing-section,
+body:not(.theme-light) .promotion-form,
+body:not(.theme-light) .promotion-ticket { border-color: var(--cu-border); background: var(--cu-surface); }
+
+body:not(.theme-light) .portfolio-add-card { color: var(--cu-heading); background: linear-gradient(135deg, rgba(16,184,238,.12), rgba(255,122,0,.1)); }
+body:not(.theme-light) .contact-channel { border-color: var(--cu-border); background: rgba(13,32,56,.82); }
+body:not(.theme-light) .contact-channel strong, body:not(.theme-light) .contact-channel a { color: var(--cu-heading); }
+body:not(.theme-light) .pricing-table-wrap { border-color: var(--cu-border); background: var(--cu-surface); }
+body:not(.theme-light) .pricing-row { color: var(--cu-muted); border-color: var(--cu-border); }
+body:not(.theme-light) .pricing-row strong, body:not(.theme-light) .pricing-row span:nth-child(2) { color: var(--cu-heading); }
+body:not(.theme-light) .promotion-note { color: var(--cu-muted); background: rgba(13,32,56,.8); }
+body:not(.theme-light) .promotion-note strong, body:not(.theme-light) .promotion-ticket__heading, body:not(.theme-light) .promotion-form label { color: var(--cu-heading); }
+body:not(.theme-light) .promotion-form input { color: #fff; border-color: var(--cu-border); background: rgba(255,255,255,.06); }
+body:not(.theme-light) .promotion-form input::placeholder { color: #9eb2c4; }
+body:not(.theme-light) .cu-chat__panel { border: 1px solid rgba(141,199,232,.2); }
 
 @media (prefers-reduced-motion: no-preference) {
     .hero-glow { animation: cuGlowDrift 10s ease-in-out infinite alternate; }
@@ -1556,3 +1609,67 @@ textarea.form-control {
     .cu-theme-toggle { right: 14px; bottom: 88px; }
     .promotion-ticket__heading { align-items: flex-start; flex-direction: column; }
 }
+
+/* Contraste final dos temas: fica depois das regras legadas para evitar mistura de paletas. */
+body.theme-light .section-light,
+body.theme-light .page-content,
+body.theme-light .cta-section,
+body.theme-light .portfolio-preview-section,
+body.theme-light .audience-section,
+body.theme-light .portfolio-cta,
+body.theme-light .contact-section,
+body.theme-light .promotion-section { color: #13243a; background: #f7fbff; }
+
+body.theme-light .service-card,
+body.theme-light .portfolio-card,
+body.theme-light .contact-card,
+body.theme-light .available-projects,
+body.theme-light .pricing-section,
+body.theme-light .promotion-form,
+body.theme-light .promotion-ticket,
+body.theme-light .pricing-table-wrap { color: #13243a; background: #fff; }
+
+body.theme-light .section-heading h2,
+body.theme-light .portfolio-intro h2,
+body.theme-light .contact-intro h2,
+body.theme-light .promotion-copy h2,
+body.theme-light .service-card h3,
+body.theme-light .portfolio-card h3,
+body.theme-light .pricing-section h2,
+body.theme-light .promotion-note strong,
+body.theme-light .promotion-ticket__heading { color: #020d1e; }
+
+body:not(.theme-light) .section-light,
+body:not(.theme-light) .page-content,
+body:not(.theme-light) .cta-section,
+body:not(.theme-light) .portfolio-preview-section,
+body:not(.theme-light) .audience-section,
+body:not(.theme-light) .portfolio-cta,
+body:not(.theme-light) .contact-section,
+body:not(.theme-light) .promotion-section { color: #d7e3ef; background: #091a2f; }
+
+body:not(.theme-light) .service-card,
+body:not(.theme-light) .portfolio-card,
+body:not(.theme-light) .contact-card,
+body:not(.theme-light) .available-projects,
+body:not(.theme-light) .pricing-section,
+body:not(.theme-light) .promotion-form,
+body:not(.theme-light) .promotion-ticket,
+body:not(.theme-light) .pricing-table-wrap { color: #d7e3ef; border-color: rgba(141,199,232,.18); background: #0d2038; }
+
+body:not(.theme-light) .section-heading h2,
+body:not(.theme-light) .portfolio-intro h2,
+body:not(.theme-light) .contact-intro h2,
+body:not(.theme-light) .promotion-copy h2,
+body:not(.theme-light) .service-card h3,
+body:not(.theme-light) .portfolio-card h3,
+body:not(.theme-light) .pricing-section h2,
+body:not(.theme-light) .promotion-note strong,
+body:not(.theme-light) .promotion-ticket__heading { color: #f5f8ff; }
+
+body:not(.theme-light) .portfolio-card p,
+body:not(.theme-light) .service-card p,
+body:not(.theme-light) .portfolio-intro p,
+body:not(.theme-light) .section-heading p,
+body:not(.theme-light) .pricing-section__heading p,
+body:not(.theme-light) .promotion-copy > p { color: #a9bbcc; }
