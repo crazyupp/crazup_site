@@ -1,7 +1,29 @@
 
 document.addEventListener("DOMContentLoaded", () => {
+    const WHATSAPP_NUMBER = "5512996613977";
+    const CONTACT_EMAIL = "crazyupcom@gmail.com";
     const year = document.getElementById("year");
     if (year) year.textContent = new Date().getFullYear();
+
+    const themeToggle = document.createElement("button");
+    themeToggle.type = "button";
+    themeToggle.className = "cu-theme-toggle";
+    themeToggle.setAttribute("aria-label", "Alternar modo claro e escuro");
+    themeToggle.innerHTML = '<span aria-hidden="true">☼</span><span class="cu-theme-toggle__label">Modo claro</span>';
+    document.body.appendChild(themeToggle);
+    const savedTheme = localStorage.getItem("cu-theme");
+    if (savedTheme === "light") document.body.classList.add("theme-light");
+    const updateThemeLabel = () => {
+        const isLight = document.body.classList.contains("theme-light");
+        themeToggle.querySelector("span:last-child").textContent = isLight ? "Modo escuro" : "Modo claro";
+        themeToggle.querySelector("span:first-child").textContent = isLight ? "☾" : "☼";
+    };
+    updateThemeLabel();
+    themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("theme-light");
+        localStorage.setItem("cu-theme", document.body.classList.contains("theme-light") ? "light" : "dark");
+        updateThemeLabel();
+    });
 
     const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
     const currentPage = window.location.pathname.split("/").pop() || "index.html";
@@ -42,9 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 `${company}\n` +
                 `Serviço: ${data.get("service")}\n\n` +
                 `Mensagem:\n${data.get("message")}`;
-            const whatsappUrl = `https://wa.me/5512991503338?text=${encodeURIComponent(text)}`;
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
             const emailSubject = "Novo contato pelo site Crazy Up";
-            const emailUrl = `mailto:c.eusth@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(text)}`;
+            const emailUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(text)}`;
 
             const isEmail = contactAction === "email";
             formMessage.textContent = isEmail
@@ -213,8 +235,8 @@ salao-beleza|index.html`.trim().split("\n").map((entry) => {
    na lista "faqBase" logo abaixo.
    ========================================================= */
 document.addEventListener("DOMContentLoaded", () => {
-    const WHATSAPP_NUMBER = "5512991503338";
-    const CONTACT_EMAIL = "c.eusth@gmail.com";
+    const WHATSAPP_NUMBER = "5512996613977";
+    const CONTACT_EMAIL = "crazyupcom@gmail.com";
 
     // "../" quando a página está dentro de /pages/, "" quando é a home.
     const basePath = window.location.pathname.includes("/pages/") ? "../" : "";
@@ -480,6 +502,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const feedback = document.getElementById("promotionFeedback");
         const ticketCanvas = document.getElementById("promotionCanvas");
         const ticketDownload = document.getElementById("ticketDownload");
+        const ticketWhatsapp = document.getElementById("ticketWhatsapp");
         const PROMO_CODE = "LOSPOTATOSCPV";
 
         promotionForm.addEventListener("submit", (event) => {
@@ -533,6 +556,21 @@ document.addEventListener("DOMContentLoaded", () => {
             feedback.className = "promotion-feedback is-success";
             ticketDownload.href = ticketCanvas.toDataURL("image/png");
             ticketDownload.download = `${ticketId}.png`;
+            const ticketMessage = `Olá, Crazy Up! Meu ticket promocional foi gerado.\n\nNome: ${name}\nID: ${ticketId}\nValidade: ${expiresText}\nCupom: ${PROMO_CODE}\n\nLink da promoção: ${window.location.href}`;
+            ticketWhatsapp.href = whatsappLink(ticketMessage);
+            ticketWhatsapp.dataset.ticketMessage = ticketMessage;
+        });
+
+        ticketWhatsapp.addEventListener("click", async (event) => {
+            if (!ticketWhatsapp.dataset.ticketMessage) return;
+            if (!navigator.share || !navigator.canShare) return;
+            event.preventDefault();
+            const response = await fetch(ticketCanvas.toDataURL("image/png"));
+            const blob = await response.blob();
+            const file = new File([blob], ticketDownload.download, { type: "image/png" });
+            if (navigator.canShare({ files: [file] })) {
+                await navigator.share({ title: "Ticket Crazy Up", text: ticketWhatsapp.dataset.ticketMessage, files: [file] });
+            }
         });
     }
 });
