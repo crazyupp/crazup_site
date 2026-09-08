@@ -183,6 +183,13 @@ salao-beleza|index.html`.trim().split("\n").map((entry) => {
         return `<div class="col-md-6 col-lg-4"><article class="portfolio-card h-100"><div class="project-screen"><iframe src="${projectUrl}" title="Prévia do projeto ${title}" loading="lazy"></iframe><span>CRAZY UP / ${String(index + 1).padStart(2, "0")}</span></div><div class="portfolio-card__content"><span class="project-type">EXPERIÊNCIA DIGITAL</span><h3>${title}</h3><a class="project-link" href="${projectUrl}" target="_blank" rel="noopener">Abrir projeto <span aria-hidden="true">↗</span></a></div></article></div>`;
     };
 
+    const featuredProjects = [
+        { title: "Sistema para barbearia", type: "AGENDA E GESTÃO", description: "Agenda, profissionais, serviços e clientes em uma operação simples.", image: "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=900&q=82" },
+        { title: "Sistema de hamburgueria", type: "PEDIDOS ONLINE", description: "Cardápio digital, pedidos e acompanhamento para vender melhor.", image: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=900&q=82" },
+        { title: "Sistema para pousadas", type: "RESERVAS", description: "Disponibilidade, reservas e contato direto com seus hóspedes.", image: "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=900&q=82" },
+    ];
+    const featuredProjectCard = (project) => `<div class="col-md-6 col-lg-4"><article class="portfolio-card h-100 featured-project-card"><div class="featured-project-card__image"><img src="${project.image}" alt="${project.title}"></div><div class="portfolio-card__content"><span class="project-type">${project.type}</span><h3>${project.title}</h3><p>${project.description}</p><a class="project-link js-open-chat" href="#">Conhecer solução <span aria-hidden="true">↗</span></a></div></article></div>`;
+
     const projectGrid = document.getElementById("projectGrid");
     if (projectGrid) {
         projectGrid.innerHTML = projectEntries.map((project, index) => projectCard(project, index, "../")).join("") + `<div class="col-md-6 col-lg-4"><a class="portfolio-add-card h-100" href="contato.html"><span class="portfolio-add-card__plus" aria-hidden="true">+</span><span class="project-type">PRÓXIMO PROJETO</span><h3>Seu projeto pode ser o próximo destaque.</h3><p>Vamos conversar sobre a sua ideia?</p><span class="project-link">Falar com a Crazy Up <span aria-hidden="true">→</span></span></a></div>`;
@@ -190,7 +197,7 @@ salao-beleza|index.html`.trim().split("\n").map((entry) => {
 
     const homeProjectGrid = document.getElementById("homeProjectGrid");
     if (homeProjectGrid) {
-        homeProjectGrid.innerHTML = projectEntries.slice(0, 3).map((project, index) => projectCard(project, index, "")).join("");
+        homeProjectGrid.innerHTML = featuredProjects.map(featuredProjectCard).join("");
     }
 });
 
@@ -449,4 +456,83 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("keydown", (event) => {
         if (event.key === "Escape" && panel.classList.contains("is-open")) closeChat();
     });
+
+    document.querySelectorAll(".js-open-chat").forEach((button) => {
+        button.addEventListener("click", (event) => {
+            event.preventDefault();
+            openChat();
+        });
+    });
+
+    const slides = document.querySelectorAll(".promo-slide");
+    if (slides.length > 1) {
+        let activeSlide = 0;
+        setInterval(() => {
+            slides[activeSlide].classList.remove("is-active");
+            activeSlide = (activeSlide + 1) % slides.length;
+            slides[activeSlide].classList.add("is-active");
+        }, 6500);
+    }
+
+    const promotionForm = document.getElementById("promotionForm");
+    if (promotionForm) {
+        const ticketArea = document.getElementById("promotionTicket");
+        const feedback = document.getElementById("promotionFeedback");
+        const ticketCanvas = document.getElementById("promotionCanvas");
+        const ticketDownload = document.getElementById("ticketDownload");
+        const PROMO_CODE = "LOSPOTATOSCPV";
+
+        promotionForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const data = new FormData(promotionForm);
+            const name = String(data.get("name") || "").trim();
+            const whatsapp = String(data.get("whatsapp") || "").trim();
+            const coupon = String(data.get("coupon") || "").trim().toUpperCase();
+
+            if (!name || !whatsapp || coupon !== PROMO_CODE) {
+                feedback.textContent = "Confira seus dados e digite o cupom LOSPOTATOSCPV corretamente.";
+                feedback.className = "promotion-feedback is-error";
+                return;
+            }
+
+            const ticketId = `CU-${Date.now().toString(36).toUpperCase()}-${Math.floor(100 + Math.random() * 900)}`;
+            const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+            const expiresText = expiresAt.toLocaleDateString("pt-BR");
+            const context = ticketCanvas.getContext("2d");
+            ticketCanvas.width = 1200;
+            ticketCanvas.height = 720;
+            context.fillStyle = "#020d1e";
+            context.fillRect(0, 0, ticketCanvas.width, ticketCanvas.height);
+            context.fillStyle = "#10b8ee";
+            context.fillRect(0, 0, 18, ticketCanvas.height);
+            context.fillStyle = "#ff7a00";
+            context.fillRect(ticketCanvas.width - 18, 0, 18, ticketCanvas.height);
+            context.fillStyle = "#f5f8ff";
+            context.font = "800 58px Arial";
+            context.fillText("CRAZY UP", 78, 100);
+            context.fillStyle = "#ff7a00";
+            context.font = "800 28px Arial";
+            context.fillText("TICKET DE PROMOÇÃO", 82, 150);
+            context.fillStyle = "#f5f8ff";
+            context.font = "700 42px Arial";
+            context.fillText(name.slice(0, 28), 82, 270);
+            context.font = "400 26px Arial";
+            context.fillStyle = "#b9c9df";
+            context.fillText(`ID: ${ticketId}`, 82, 330);
+            context.fillText(`Válido até: ${expiresText}`, 82, 375);
+            context.fillText("Apresente este ticket à equipe Crazy Up.", 82, 455);
+            context.fillStyle = "#10b8ee";
+            context.font = "700 30px Arial";
+            context.fillText(PROMO_CODE, 82, 555);
+            context.fillStyle = "#8dc7e8";
+            context.font = "400 22px Arial";
+            context.fillText(`WhatsApp cadastrado: ${whatsapp}`, 82, 610);
+
+            ticketArea.classList.add("is-visible");
+            feedback.textContent = `Ticket gerado com sucesso. Guarde o ID ${ticketId}; ele é válido por 7 dias.`;
+            feedback.className = "promotion-feedback is-success";
+            ticketDownload.href = ticketCanvas.toDataURL("image/png");
+            ticketDownload.download = `${ticketId}.png`;
+        });
+    }
 });

@@ -10,4 +10,6 @@
   <url><loc>https://crazyup.com.br/pages/sobre.html</loc></url>
   <!-- Página que recebe pedidos de orçamento. -->
   <url><loc>https://crazyup.com.br/pages/contato.html</loc></url>
+    <!-- Página da campanha promocional com emissão de ticket. -->
+    <url><loc>https://crazyup.com.br/pages/promocao.html</loc></url>
 </urlset>
