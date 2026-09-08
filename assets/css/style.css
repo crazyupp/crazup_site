@@ -41,6 +41,8 @@ body {
 }
 
 body > *:not(.cu-atmosphere) { position: relative; z-index: 1; }
+body > .cu-chat,
+body > .cu-theme-toggle { position: fixed; z-index: 2000; }
 
 .cu-atmosphere {
     position: fixed;
