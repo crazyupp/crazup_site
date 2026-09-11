@@ -62,7 +62,11 @@
                         <input id="promotionWhatsapp" name="whatsapp" type="tel" placeholder="(12) 99999-9999" autocomplete="tel" required>
                         <label for="promotionCoupon">Cupom da promoção</label>
                         <input id="promotionCoupon" name="coupon" type="text" placeholder="LOSPOTATOSCPV" autocapitalize="characters" required>
-                        <button class="btn btn-orange btn-lg w-100 mt-2" type="submit">Gerar meu ticket <span aria-hidden="true">→</span></button>
+                        <button class="btn btn-orange btn-lg w-100 mt-2" type="submit"><span>Gerar meu ticket</span> <span aria-hidden="true">→</span></button>
+                        <div class="promotion-loader" id="promotionLoader" role="status" aria-live="polite" aria-hidden="true">
+                            <span class="promotion-loader__space" aria-hidden="true"><span class="promotion-loader__ship"></span></span>
+                            <span>Preparando seu ticket...</span>
+                        </div>
                         <p class="promotion-feedback" id="promotionFeedback" aria-live="polite"></p>
                     </form>
                     <div class="promotion-ticket" id="promotionTicket">
