@@ -1782,3 +1782,86 @@ body:not(.theme-light) .promotion-section { background: transparent; }
 
 body.theme-light .text-muted { color: #52657a !important; }
 body:not(.theme-light) .text-muted { color: #b7c8d8 !important; }
+
+/* Vitrine de clientes: usa o mesmo acabamento dos cards de projeto do site. */
+.clients-preview-section,
+.clients-section { position: relative; }
+
+.clients-grid { align-items: stretch; }
+
+.client-card {
+    overflow: hidden;
+    border: 1px solid rgba(141,199,232,.2);
+    border-radius: var(--cu-radius);
+    background: #0d2038;
+    box-shadow: 0 18px 42px rgba(0,0,0,.16);
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+.client-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(16,184,238,.48);
+    box-shadow: 0 24px 48px rgba(0,0,0,.22);
+}
+
+.client-card__logo {
+    display: grid;
+    min-height: 220px;
+    place-items: center;
+    padding: 28px;
+    background: #fff;
+}
+
+.client-card__logo img {
+    display: block;
+    width: min(100%, 250px);
+    max-height: 190px;
+    object-fit: contain;
+}
+
+.client-card__body { padding: 28px; }
+.client-card__body h2,
+.client-card__body h3 { margin: 10px 0 12px; color: #f5f8ff; font-size: 1.25rem; font-weight: 800; line-height: 1.35; }
+.client-card__body p { color: #a9bbcc; line-height: 1.7; }
+.client-card .project-link { color: var(--cu-orange); font-weight: 800; text-decoration: none; }
+.client-card .project-link:hover { color: #ff9b45; }
+
+.client-card--placeholder {
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    border-style: dashed;
+    background: rgba(13,32,56,.5);
+}
+
+.client-card__placeholder-mark {
+    display: grid;
+    width: 76px;
+    height: 76px;
+    place-items: center;
+    margin: 28px 28px 0;
+    border: 1px solid rgba(141,199,232,.3);
+    border-radius: 22px;
+    color: #8dc7e8;
+    background: rgba(141,199,232,.08);
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+body.theme-light .client-card,
+body.theme-light .client-card--placeholder {
+    border-color: #dfeaf3;
+    background: #fff;
+    box-shadow: 0 14px 35px rgba(3,18,40,.05);
+}
+
+body.theme-light .client-card__body h2,
+body.theme-light .client-card__body h3 { color: var(--cu-navy); }
+body.theme-light .client-card__body p { color: var(--cu-muted); }
+body.theme-light .client-card__placeholder-mark { border-color: #dfeaf3; color: var(--cu-blue); background: #f5f9fd; }
+
+@media (max-width: 575.98px) {
+    .client-card__logo { min-height: 190px; }
+    .client-card__body { padding: 24px; }
+}
